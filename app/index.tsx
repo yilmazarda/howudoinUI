@@ -53,15 +53,17 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Username</Text>
+      <Text style={styles.text}>Email</Text>
       <TextInput
         style={styles.textBoxes}
+        autoCapitalize="none"
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
       <Text style={styles.text}>Password</Text>
       <TextInput
         style={styles.textBoxes}
+        
         onChangeText={(text) => setPassword(text)}
         value={password}
         secureTextEntry

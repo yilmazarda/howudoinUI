@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 
 export default function Register() {
   const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter(); // For navigation
@@ -15,6 +16,7 @@ export default function Register() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name: name,
+        lastName: surname,
         email: email,
         password: password,
       }),
@@ -42,13 +44,23 @@ export default function Register() {
       <Text style={styles.text}>Name</Text>
       <TextInput
         style={styles.textBoxes}
-        onChangeText={(text) => setName(text)}
+        onChangeText={(text) => setName(text.replace(/[^a-zA-Z]/g, ''))} // Only allow letters
+        keyboardType='default'
         value={name}
         placeholder="Enter your name"
+      />
+      <Text style={styles.text}>Surname</Text>
+      <TextInput
+        style={styles.textBoxes}
+        onChangeText={(text) => setSurname(text.replace(/[^a-zA-Z]/g, ''))} // Only allow letters
+        value={surname}
+        placeholder="Enter your surname"
       />
       <Text style={styles.text}>Email</Text>
       <TextInput
         style={styles.textBoxes}
+        autoCapitalize="none"
+        keyboardType="email-address"
         onChangeText={(text) => setEmail(text)}
         value={email}
         placeholder="Enter your email"
@@ -56,6 +68,7 @@ export default function Register() {
       <Text style={styles.text}>Password</Text>
       <TextInput
         style={styles.textBoxes}
+        autoCapitalize="none"
         onChangeText={(text) => setPassword(text)}
         value={password}
         placeholder="Enter your password"
