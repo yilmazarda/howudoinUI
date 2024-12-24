@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Text, View, TextInput, Pressable, Alert, StyleSheet } from 'react-native';
-import { Link, useRouter } from 'expo-router'; // Link to navigate to other pages
+import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter(); // Use this to navigate programmatically
+  const router = useRouter(); // For navigation
 
   // API request to log in
   async function submit() {
@@ -20,27 +20,20 @@ export default function Index() {
     };
 
     try {
-      // Make the API call
       const response = await fetch('http://localhost:8080/auth/login', requestOptions);
-      
-      // Check if login was successful
       if (response.ok) {
         const result = await response.json();
-
-        console.log('API Response:', result);
         const token = result.jwt;
-        
+
         if (token) {
-          AsyncStorage.setItem('authToken', token);
+          await AsyncStorage.setItem('authToken', token); // Store token
+          await AsyncStorage.setItem('userEmail', email);
         } else {
           console.error('No token returned from the API');
         }
 
-        // Alert user about success
         Alert.alert('Login Successful');
-        
-        // Navigate to the home page after successful login
-        router.push('/home'); // Navigate to the home screen using file-based navigation
+        router.push('/friends'); // Redirect to Friends List
       } else {
         const errorData = await response.json();
         Alert.alert('Login Failed', errorData.message || 'Please try again');
@@ -57,26 +50,25 @@ export default function Index() {
       <TextInput
         style={styles.textBoxes}
         autoCapitalize="none"
+        keyboardType="email-address"
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
       <Text style={styles.text}>Password</Text>
       <TextInput
         style={styles.textBoxes}
-        
+        secureTextEntry
         onChangeText={(text) => setPassword(text)}
         value={password}
-        secureTextEntry
       />
 
       <Pressable style={styles.buttons} onPress={submit}>
         <Text style={styles.text}>Login</Text>
       </Pressable>
 
-      {/* Link to the register page */}
-      <Link href="/register" style={styles.links}>
-        Register
-      </Link>
+      <Pressable onPress={() => router.push('/register')} style={styles.links}>
+        <Text style={styles.text}>Register</Text>
+      </Pressable>
     </View>
   );
 }
@@ -108,7 +100,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   links: {
-    color: 'white',
     marginTop: 10,
   },
   text: {
