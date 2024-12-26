@@ -38,8 +38,7 @@ export default function Index() {
         Alert.alert('Login Failed', errorData.message || 'Please try again');
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      Alert.alert('Login Failed', 'An error occurred, please try again later.');
+      Alert.alert('Login Failed', 'Invalid email or password.');
     }
   }
 

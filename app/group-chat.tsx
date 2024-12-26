@@ -222,7 +222,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   backButton: {
-    padding: 5,
+    position: 'absolute',
+    left: 15,
+    top: 13,
   },
   title: {
     fontSize: 20,
