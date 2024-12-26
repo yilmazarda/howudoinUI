@@ -32,7 +32,6 @@ export default function Index() {
           console.error('No token returned from the API');
         }
 
-        Alert.alert('Login Successful');
         router.push('/friends'); // Redirect to Friends List
       } else {
         const errorData = await response.json();

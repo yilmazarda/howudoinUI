@@ -42,13 +42,13 @@ export default function Friends() {
       {/* Header with Icons */}
       <View style={styles.header}>
         {/* Friend Requests Icon */}
-        <TouchableOpacity onPress={() => router.push('/chat')}>
+        <TouchableOpacity onPress={() => router.push('/friend-request')}>
           <Ionicons name="person-add" size={24} color="#EDF6F9" />
         </TouchableOpacity>
         {/* Title */}
         <Text style={styles.title}>Friends</Text>
         {/* Groups Icon */}
-        <TouchableOpacity onPress={() => router.push('/chat')}>
+        <TouchableOpacity onPress={() => router.push('/groups')}>
           <Ionicons name="people" size={24} color="#EDF6F9" />
         </TouchableOpacity>
       </View>
@@ -85,7 +85,6 @@ export default function Friends() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#006D77',
   },
   header: {
@@ -94,6 +93,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
     marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
   title: {
     fontSize: 20,
