@@ -168,7 +168,7 @@ export default function FriendRequestScreen() {
       </View>
 
       {/* Incoming Friend Requests Section */}
-      <Text style={styles.subTitle}>Incoming Requests</Text>
+      <Text style={styles.subTitle}>Pending Friend Requests</Text>
       {friendRequests.length === 0 ? (
         <Text style={styles.noRequestsText}>No friend requests</Text>
       ) : (
