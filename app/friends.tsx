@@ -117,9 +117,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+    marginHorizontal: 60,
     padding: 10,
     backgroundColor: '#092327',
-    borderRadius: 5,
+    borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {

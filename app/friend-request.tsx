@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 
 type FriendRequest = {
-  id: string; // id is now mandatory
+  id: string; // ObjectId for identifying the friend request
   senderEmail: string;
 };
 
@@ -37,8 +37,8 @@ export default function FriendRequestScreen() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Friend Requests:', data); // Log data for debugging
         setFriendRequests(data);
+        console.log(data);
       } else {
         Alert.alert('Error', 'Failed to fetch friend requests');
       }
@@ -80,53 +80,62 @@ export default function FriendRequestScreen() {
   }
 
   async function acceptFriendRequest(id: string) {
+    console.log("Sending ID to backend:", id);
+  
     try {
-      const token = await AsyncStorage.getItem('authToken');
-      const response = await fetch('http://localhost:8080/requests/accept', {
-        method: 'POST',
+      const token = await AsyncStorage.getItem("authToken");
+      const response = await fetch("http://localhost:8080/friends/accept", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id }), // Send ID in the request body
+        body: JSON.stringify({ id }), // Send ID as part of an object
       });
   
+      const responseBody = await response.text();
+      console.log("Response Body:", responseBody);
+  
       if (response.ok) {
-        Alert.alert('Success', 'Friend request accepted!');
+        Alert.alert("Success", "Friend request accepted!");
         fetchFriendRequests(); // Refresh the list
       } else {
-        Alert.alert('Error', 'Failed to accept friend request.');
+        Alert.alert("Error", responseBody || "Failed to accept friend request.");
       }
     } catch (error) {
-      console.error('Error accepting friend request:', error);
-      Alert.alert('Error', 'An error occurred while accepting the friend request.');
+      console.error("Error accepting friend request:", error);
+      Alert.alert("Error", "An error occurred while accepting the friend request.");
     }
   }
-
-  // Reject a friend request
+  
   async function rejectFriendRequest(id: string) {
+    console.log("Sending ID to backend:", id);
+  
     try {
-      const token = await AsyncStorage.getItem('authToken');
-      const response = await fetch(`http://localhost:8080/requests/reject`, {
-        method: 'POST',
+      const token = await AsyncStorage.getItem("authToken");
+      const response = await fetch("http://localhost:8080/friends/reject", {
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({id})
+        body: JSON.stringify({ id }), // Send ID as part of an object
       });
-
+  
+      const responseBody = await response.text();
+      console.log("Response Body:", responseBody);
+  
       if (response.ok) {
-        Alert.alert('Success', 'Friend request rejected!');
+        Alert.alert("Success", "Friend request rejected!");
         fetchFriendRequests(); // Refresh the list
       } else {
-        Alert.alert('Error', 'Failed to reject friend request.');
+        Alert.alert("Error", responseBody || "Failed to reject friend request.");
       }
     } catch (error) {
-      console.error('Error rejecting friend request:', error);
-      Alert.alert('Error', 'An error occurred while rejecting the friend request.');
+      console.error("Error rejecting friend request:", error);
+      Alert.alert("Error", "An error occurred while rejecting the friend request.");
     }
   }
-
   useEffect(() => {
     fetchFriendRequests();
   }, []);
@@ -147,6 +156,7 @@ export default function FriendRequestScreen() {
       <View style={styles.inputRow}>
         <TextInput
           style={styles.inputRowField}
+          autoCapitalize="none"
           placeholder="Enter email"
           placeholderTextColor="#999"
           value={emailToSearch}

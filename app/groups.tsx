@@ -95,16 +95,6 @@ export default function Groups() {
         />
       )}
 
-      <Pressable
-        style={styles.button}
-        onPress={async () => {
-          await AsyncStorage.removeItem('authToken');
-          await AsyncStorage.removeItem('userEmail');
-          router.push('/');
-        }}
-      >
-        <Text style={styles.buttonText}>Logout</Text>
-      </Pressable>
     </SafeAreaView>
   );
 }
