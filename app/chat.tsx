@@ -36,7 +36,7 @@ export default function Chat() {
 
         console.log('Fetching messages for:', receiverEmail);
 
-        const response = await fetch(`http://localhost:8080/messages?friend=${receiverEmail}`, {
+        const response = await fetch(`http://localhost:8080/messages?email=${receiverEmail}`, {
           method: 'GET',
           headers: { Authorization: `Bearer ${token}` },
         });
