@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Text, View, FlatList, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for icons
+import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
 
 export default function Friends() {
   const [friends, setFriends] = useState<string[]>([]); // Use string array for emails only
   const router = useRouter();
 
-  useEffect(() => {
+
+  
+  useFocusEffect(useCallback(() => {
     const fetchFriends = async () => {
       try {
         const token = await AsyncStorage.getItem('authToken');
@@ -35,7 +38,7 @@ export default function Friends() {
       }
     };
     fetchFriends();
-  }, []);
+  }, []));
 
   return (
     <SafeAreaView style={styles.container}>
